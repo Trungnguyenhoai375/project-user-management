@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import UserTable from './UserTable'; // Nhập file bảng vào đây
+import UserTable from './UserTable'; 
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -29,6 +29,14 @@ function App() {
     });
   };
 
+  const deleteUser = (id) => {
+    if (window.confirm('Bạn có chắc muốn xóa user này?')) {
+      fetch(`${API_URL}/${id}`, { method: 'DELETE' })
+        .then(() => fetchUsers()) 
+        .catch(err => console.log("Lỗi xóa: ", err));
+    }
+  };
+
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial' }}>
       <h1>Quản lý User - Cấu trúc 2 file</h1>
@@ -38,8 +46,8 @@ function App() {
         <button type="submit">Thêm mới</button>
       </form>
 
-      {/* Gọi file UserTable và truyền dữ liệu users vào */}
-      <UserTable users={users} />
+      {/* QUAN TRỌNG: Phải có onDelete={deleteUser} ở đây thì nút bên file kia mới chạy */}
+      <UserTable users={users} onDelete={deleteUser} />
     </div>
   );
 }
