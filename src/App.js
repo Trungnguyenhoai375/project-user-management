@@ -5,7 +5,7 @@ function App() {
   const [users, setUsers] = useState([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const API_URL = 'https://trung-backend.onrender.com/api/users';
+  const API_URL = 'https://node-bacnkend-final.onrender.com';
 
   const fetchUsers = () => {
     fetch(API_URL)
