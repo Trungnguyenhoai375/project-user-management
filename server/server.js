@@ -7,7 +7,7 @@ app.use(cors());
 app.use(express.json());
 
 // Kết nối MongoDB
-mongoose.connect('mongodb+srv://trung:trung123@cluster0.mongodb.net/test')
+mongoose.connect('mongodb+srv://admin:123@cluster0.mongodb.net/test')
   .then(() => console.log("Backend đã kết nối Database thành công!"))
   .catch(err => console.log("Lỗi kết nối DB: ", err));
 
