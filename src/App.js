@@ -32,14 +32,17 @@ function App() {
   // Hàm xóa này sẽ gửi yêu cầu lên Render
   const deleteUser = (id) => {
     if (window.confirm('Bạn có chắc muốn xóa user này?')) {
+      // Đảm bảo link xóa là: API_URL + / + id
       fetch(`${API_URL}/${id}`, { 
-        method: 'DELETE' 
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' }
       })
       .then(res => {
         if (res.ok) {
-          fetchUsers(); // Nếu xóa thành công trên DB thì load lại bảng
+          fetchUsers(); // Xóa xong gọi lại danh sách mới
         } else {
-          alert("Lỗi: Backend không cho phép xóa!");
+          // Nếu vẫn lỗi 404, báo lỗi cho mình biết
+          alert("Không tìm thấy User để xóa trên Server!");
         }
       })
       .catch(err => console.log("Lỗi lệnh xóa: ", err));
