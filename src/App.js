@@ -5,7 +5,7 @@ function App() {
   const [users, setUsers] = useState([]);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const API_URL = 'https://node-bacnkend-final-1.onrender.com';
+  const API_URL = 'https://node-bacnkend-final-1.onrender.com/api/users';
 
   const fetchUsers = () => {
     fetch(API_URL)
