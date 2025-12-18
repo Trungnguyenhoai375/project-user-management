@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import UserTable from './UserTable'; // Nhập file bảng vào đây
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -7,7 +8,10 @@ function App() {
   const API_URL = 'https://trung-backend.onrender.com/api/users';
 
   const fetchUsers = () => {
-    fetch(API_URL).then(res => res.json()).then(data => setUsers(data));
+    fetch(API_URL)
+      .then(res => res.json())
+      .then(data => setUsers(data))
+      .catch(err => console.log("Lỗi kết nối Backend: ", err));
   };
 
   useEffect(() => { fetchUsers(); }, []);
@@ -18,27 +22,24 @@ function App() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email }),
-    }).then(() => { fetchUsers(); setName(''); setEmail(''); });
+    }).then(() => {
+      fetchUsers();
+      setName('');
+      setEmail('');
+    });
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Project 1: Quản lý User</h1>
-      <form onSubmit={addUser}>
-        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Tên" required />
-        <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" required />
-        <button type="submit">Thêm User</button>
+    <div style={{ padding: '20px', fontFamily: 'Arial' }}>
+      <h1>Quản lý User - Cấu trúc 2 file</h1>
+      <form onSubmit={addUser} style={{ marginBottom: '20px' }}>
+        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Tên..." required />
+        <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email..." required />
+        <button type="submit">Thêm mới</button>
       </form>
-      <table border="1" style={{ marginTop: '20px', width: '100%' }}>
-        <thead>
-          <tr><th>Tên</th><th>Email</th></tr>
-        </thead>
-        <tbody>
-          {users.map(user => (
-            <tr key={user._id}><td>{user.name}</td><td>{user.email}</td></tr>
-          ))}
-        </tbody>
-      </table>
+
+      {/* Gọi file UserTable và truyền dữ liệu users vào */}
+      <UserTable users={users} />
     </div>
   );
 }
