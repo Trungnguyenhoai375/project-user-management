@@ -31,21 +31,29 @@ function App() {
 
   // Hàm xóa này sẽ gửi yêu cầu lên Render
   const deleteUser = (id) => {
-    if (window.confirm('Bạn có chắc muốn xóa user này?')) {
-      // Đảm bảo link xóa là: API_URL + / + id
+    if (window.confirm('Bạn có chắc muốn xóa user này không?')) {
+      // Dùng proxy để vượt rào cản bảo mật của Render
+      const proxy = 'https://cors-anywhere.herokuapp.com/'; 
+      
       fetch(`${API_URL}/${id}`, { 
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        }
       })
       .then(res => {
         if (res.ok) {
-          fetchUsers(); // Xóa xong gọi lại danh sách mới
+          alert("Xóa thành công!");
+          fetchUsers(); 
         } else {
-          // Nếu vẫn lỗi 404, báo lỗi cho mình biết
-          alert("Không tìm thấy User để xóa trên Server!");
+          alert("Lỗi server: Có thể server đang bận, bạn thử lại sau 1 phút nhé!");
         }
       })
-      .catch(err => console.log("Lỗi lệnh xóa: ", err));
+      .catch(err => {
+        console.log("Lỗi: ", err);
+        alert("Hiện tại chưa xóa được, hãy thử lại sau ít phút!");
+      });
     }
   };
 
